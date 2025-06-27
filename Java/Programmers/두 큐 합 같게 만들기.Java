@@ -1,3 +1,4 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/118667
 //First try
 //public int solution(int[] queue1, int[] queue2) {
 //    int answer = -2;

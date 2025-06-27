@@ -1,3 +1,4 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/42578
 public int solution(String[][] clothes) {
     int answer = 1;
     HashMap<String, Integer> clothHash = new HashMap<String, Integer>();

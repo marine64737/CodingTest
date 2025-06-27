@@ -1,3 +1,4 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/42885
 public static int solution(int[] people, int limit) {
     int answer = 0;
 

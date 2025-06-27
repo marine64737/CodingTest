@@ -1,3 +1,4 @@
+//https://school.programmers.co.kr/learn/courses/30/lessons/42747
 // First try
 //    public static int solution(int[] citations) {
 //        int answer = 0;
