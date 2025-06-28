@@ -24,3 +24,27 @@ class Solution {
         return answer;
     }
 }
+
+//Second try
+    public static int[] solution(int[] prices) {
+    int n = prices.length;
+    int[] answer = new int[n];
+    Stack<Integer> stack = new Stack<>();
+
+    for (int i = 0; i < n; i++) {
+        // If current price < price at stack top, calculate time and pop
+        while (!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
+            int top = stack.pop();
+            answer[top] = i - top;
+        }
+        stack.push(i);
+    }
+
+    // For prices that never dropped
+    while (!stack.isEmpty()) {
+        int top = stack.pop();
+        answer[top] = n - top - 1;
+    }
+
+    return answer;
+}
