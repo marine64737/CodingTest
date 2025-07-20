@@ -78,7 +78,7 @@ class Solution {
     }
 }
 
-//왜 안 되는지 고민 중
+//왜 안 되는지 고민 중(found가 true임에도 계속 순회)
 class Solution {
     boolean found = false;
     public String[] solution(String[][] tickets) {
@@ -109,13 +109,11 @@ class Solution {
         }
         for (int i = 0; i< tickets.length; i++){
             if (!tripped[i] && tickets[tickets_index][1].equals(tickets[i][0])){
-                System.out.println("tickets[tickets_index][1] "+ tickets[tickets_index][1]+" "+tickets_index);
                 tripped[i] = true;
                 answer[answer_index] = tickets[i][1];
-                System.out.println("i(before): "+ i);
                 route(tickets, answer, tripped, i, answer_index+1);
-                System.out.println("i(after): "+ i);
                 tripped[i] = false;
+                if (found) return; //추가 후 정상 동작
             }
         }
     }
