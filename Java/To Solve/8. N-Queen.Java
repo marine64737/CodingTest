@@ -66,10 +66,13 @@ class Solution {
         for (int c=0; c<n; c++){
             if (col[c] || diag1[r+c] || diag2[r-c+n-1]) continue;
             else {
-                col[c] = true;
-                diag1[r+c] = true;
-                diag2[r-c+n-1] =true;
-                dfs(r+1, n, col, diag1, diag2);
+                boolean[] col_copy = col.clone();
+                boolean[] diag1_copy = diag1.clone();
+                boolean[] diag2_copy = diag2.clone();
+                col_copy[c] = true;
+                diag1_copy[r+c] = true;
+                diag2_copy[r-c+n-1] =true;
+                dfs(r+1, n, col_copy, diag1_copy, diag2_copy);
             }
         }
     }
