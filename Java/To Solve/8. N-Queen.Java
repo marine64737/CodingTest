@@ -77,3 +77,41 @@ class Solution {
         }
     }
 }
+
+//Third try
+class Solution {
+    int answer = 0;
+    int n;
+    boolean[] col;
+    boolean[] diag1;
+    boolean[] diag2;
+    public int solution(int n) {
+        this.n = n;
+        col = new boolean[n];
+        diag1 = new boolean[2*n-1];
+        diag2 = new boolean[2*n-1];
+        dfs(0);
+        return answer;
+    }
+
+    public void dfs(int r){
+        if (r == n) {
+            answer++;
+            return;
+        }
+
+
+        for (int c=0; c<n; c++){
+            if (col[c] || diag1[r+c] || diag2[r-c+n-1]) continue;
+            else {
+                col[c] = true;;
+                diag1[r+c] = true;
+                diag2[r-c+n-1] = true;
+                dfs(r+1);
+                col[c] = false;
+                diag1[r+c] = false;
+                diag2[r-c+n-1] = false;
+            }
+        }
+    }
+}
