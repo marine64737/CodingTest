@@ -115,3 +115,59 @@ class Solution {
         }
     }
 }
+
+//Fourth try
+class Solution {
+    int answer, all, n;
+    public int solution(int n) {
+        answer = 0;
+        this.n = n;
+        all = (1<<n)-1;
+        dfs(0, 0, 0, 0);
+        return answer;
+    }
+
+    public void dfs(int r, int col, int diag1, int diag2){
+        if (r == n) {
+            answer++;
+            return;
+        }
+        int avail = ~(col | diag1 | diag2) & all;
+        while (avail != 0){
+            int bit = avail&-avail;
+            avail -= bit;
+            dfs(r+1, col|bit, (diag1|bit)<<1&all, (diag2|bit)>>>1&all);
+        }
+
+    }
+}
+
+//AI Recommend
+class Solution {
+    int n, ans;
+    long ALL;
+    public int solution(int n) {
+        this.n = n; ALL = (1L << n) - 1; // n>31 대비 long
+        // 대칭 최적화
+        for (int c = 0; c < n/2; c++) {
+            long bit = 1L << c;
+            dfs(bit, bit<<1, bit>>1);
+        }
+        ans *= 2;
+        if ((n & 1) == 1) { // 가운데 열
+            long bit = 1L << (n/2);
+            dfs(bit, bit<<1, bit>>1);
+        }
+        return ans;
+    }
+    // cols: 사용한 열 마스크, d1: ↘, d2: ↙
+    void dfs(long cols, long d1, long d2) {
+        if (cols == ALL) { ans++; return; }
+        long avail = ALL & ~(cols | d1 | d2);
+        while (avail != 0) {
+            long bit = avail & -avail;   // 최하위 1비트
+            avail -= bit;
+            dfs(cols | bit, (d1 | bit) << 1, (d2 | bit) >> 1);
+        }
+    }
+}
