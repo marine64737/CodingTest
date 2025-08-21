@@ -89,3 +89,33 @@ class Solution {
         return answer;
     }
 }
+//Third try
+import java.util.*;
+class Solution {
+    public int solution(int bridge_length, int weight, int[] truck_weights) {
+        int answer = 0;
+        int bridgeWeight = 0;
+        int index=0;
+        int top = 0;
+        Queue<Integer> bridge = new LinkedList<>();
+        do {
+            if (bridge.size() == bridge_length){
+                bridgeWeight -= bridge.peek();
+                bridge.poll();
+            }
+            if (index < truck_weights.length){
+                if (bridgeWeight + truck_weights[index] <= weight){
+                    top = truck_weights[index];
+                    bridge.add(top);
+                    bridgeWeight += top;
+                    index++;
+                }
+                else bridge.add(0);
+            }
+            else bridge.add(0);
+            answer++;
+        } while (bridgeWeight > 0);
+
+        return answer;
+    }
+}

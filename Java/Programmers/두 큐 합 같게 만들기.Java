@@ -74,3 +74,48 @@ public static int solution(int[] queue1, int[] queue2) {
     }
     return -1;
 }
+
+import java.util.*;
+class Solution {
+    public int solution(int[] queue1, int[] queue2) {
+        int answer = 0;
+        long sum_1=0;
+        long sum_2=0;
+        int index_1=0;
+        int index_2=0;
+        int length = queue1.length;
+        for (long i:queue1) sum_1+=i;
+        for (long i:queue2) sum_2+=i;
+        if ((sum_1+sum_2)%2==1) return -1;
+        for (int i=0; i<length * 3; i++){
+            if (sum_1 > sum_2){
+                if ((index_1 / length) % 2 == 0){
+                    sum_1 -= queue1[index_1%length];
+                    sum_2 += queue1[index_1%length];
+                }
+                else {
+                    sum_1 -= queue2[index_1%length];
+                    sum_2 += queue2[index_1%length];
+                }
+                index_1++;
+            }
+            else if (sum_1 < sum_2){
+                if ((index_2 / length) % 2 == 0){
+                    sum_1 += queue2[index_2%length];
+                    sum_2 -= queue2[index_2%length];
+                }
+                else {
+                    sum_1 += queue1[index_2%length];
+                    sum_2 -= queue1[index_2%length];
+                }
+                index_2++;
+            }
+            else{
+                if (i < 2) continue;
+                else return answer;
+            }
+            answer++;
+        }
+        return -1;
+    }
+}
