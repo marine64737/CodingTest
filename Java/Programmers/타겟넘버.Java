@@ -119,3 +119,20 @@ class Solution {
         dfs(idx + 1, sum - numbers[idx], numbers, target);
     }
 }
+
+//Third try
+class Solution {
+    int answer=0;
+    public int solution(int[] numbers, int target) {
+        dfs(-1, 0, target, numbers);
+        return answer;
+    }
+    public void dfs(int depth, int num, int target, int[] numbers){
+        if (depth == numbers.length-1){
+            if (num == target) answer++;
+            return;
+        }
+        dfs(depth+1, num+numbers[depth+1], target, numbers);
+        dfs(depth+1, num-numbers[depth+1], target, numbers);
+    }
+}
