@@ -1,4 +1,4 @@
-//https://www.acmicpc.net/problem/1806
+//https://www.acmicpc.net/problem/22862
 import java.io.*; import java.util.*;
 
 class Scratch {
@@ -7,24 +7,26 @@ class Scratch {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
-        int S = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
         st = new StringTokenizer(br.readLine());
-
         int[] arr = new int[N];
         for (int i = 0; i < N; i++) arr[i] = Integer.parseInt(st.nextToken());
-        int index=0;
-        long sum=0;
-        int length=N+1;
+        int odd = 0;
+        int index = 0;
         for (int i=0; i<N; i++){
-            sum+=arr[i];
-            while (sum >= S) {
-                length = Math.min(length, i-index+1);
-                sum -= arr[index];
-                index++;
+            if (arr[i]%2 == 0) answer = Math.max(answer, i-index+1);
+            else {
+                while (odd == K) {
+                    if (arr[index]%2 == 1){
+                        odd--;
+                    }
+                    index++;
+                }
+                odd++;
+                answer = Math.max(answer, i-index+1);
             }
         }
-        answer = (length == N+1) ? 0 : length;
-        System.out.println(answer);
+        System.out.print(answer-odd);
         return;
     }
 }
