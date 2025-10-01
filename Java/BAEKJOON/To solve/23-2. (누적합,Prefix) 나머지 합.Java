@@ -25,3 +25,30 @@ class Scratch {
         return;
     }
 }
+//Second try
+import java.io.*; import java.util.*;
+
+class Scratch {
+    public static void main(String[] args) throws Exception {
+        long answer=0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        long[] cnt = new long[M];
+        long sum=0;
+        for (int i=0; i<N; i++) {
+            sum+=Long.parseLong(st.nextToken());
+            int r = (int)(sum % M);
+            cnt[r]++;
+        }
+        answer+=cnt[0];
+        for (int r=0; r<M; r++){
+            answer+=cnt[r] * (cnt[r]-1)/2;
+        }
+        System.out.print(answer);
+        return;
+    }
+
+}
