@@ -2,7 +2,11 @@
 //First try
 import java.io.*; import java.util.*;
 
+<<<<<<< HEAD
 class Main {
+=======
+class Scratch {
+>>>>>>> 70c6a829933e8d6b4c0b3c1bdc1f018946a7707a
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int score = 0;
@@ -25,6 +29,10 @@ class Main {
                 dq.push(i);
                 if (balls[i][1] > balls[i + 1][1]) {
                     pass = false;
+<<<<<<< HEAD
+=======
+                    break;
+>>>>>>> 70c6a829933e8d6b4c0b3c1bdc1f018946a7707a
                 }
             }
             if (pass) {
@@ -56,6 +64,7 @@ class Main {
         }
         System.out.print(score);
     }
+<<<<<<< HEAD
 }
 //Second try
 import java.io.*;
@@ -125,4 +134,6 @@ class Main {
         }
         System.out.print(score);
     }
+=======
+>>>>>>> 70c6a829933e8d6b4c0b3c1bdc1f018946a7707a
 }
