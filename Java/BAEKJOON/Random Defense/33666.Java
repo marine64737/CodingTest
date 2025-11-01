@@ -113,3 +113,79 @@ class Scratch {
         System.out.print(sb);
     }
 }
+//Retry
+import java.io.*;
+
+class Main {
+    static class FastScanner{
+        InputStream in;
+        byte[] buffer = new byte[1<<16];
+        int ptr=0, len=0;
+        FastScanner(InputStream in){
+            this.in = in;
+        }
+        int read() throws IOException{
+            if (ptr >= len){
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+        int readInt() throws IOException {
+            int c =0;
+            int sign = 1;
+            do { c = read(); } while (c <= 32);
+            if (c == '-') { sign = -1; c = read(); }
+            int val = 0;
+            while (c > 32){
+                val = val * 10 + (c-'0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+    public static void main(String[] args) throws IOException {
+        FastScanner fs = new FastScanner(System.in);
+        StringBuilder sb = new StringBuilder();
+        int N = fs.readInt();
+        int M = fs.readInt();
+        int[] arr = new int[N];
+        int[] reply = new int[M+2];
+        long message = 0;
+        int people=0;
+        for (int i=0; i<N; i++) {
+            arr[i]= fs.readInt();
+            if (arr[i] > 1){
+                message+=arr[i];
+                people++;
+            }
+
+        }
+        long avg = (people > 0)? message/people : 0;
+        int over = 0;
+        int common = 0;
+        for (int i=0; i<N; i++) {
+            if (arr[i] > M && arr[i] <= avg){
+                System.out.print(-1);
+                return;
+            }
+            if (arr[i] > avg) over++;
+            else {
+                common+=arr[i]/M;
+                int remain = arr[i]%M;
+                if (remain > 0){
+                    reply[remain+1]--;
+                    reply[1]++;
+                }
+            }
+        }
+        int ans=0;
+        for (int i=0; i<M; i++) {
+            ans+=reply[i+1];
+            if (i==0) sb.append(ans+common+over);
+            else sb.append(" ").append(ans+common);
+        }
+        System.out.print(sb);
+    }
+}

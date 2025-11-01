@@ -513,6 +513,108 @@ class Scratch {
         System.out.print(1);
     }
 
+
+
+    static void addEdge(int[] head, int[] to, int[] next, int u, int v) {
+        to[idx] = v;
+        next[idx] = head[u];
+        head[u] = idx++;
+    }
+
+    static void euler(int[] head, int[] to, int[] next, int[] in, int[] out, int node) {
+        in[node] = ++cnt;
+        for (int i = head[node]; i != -1; i = next[i]) {
+            int v = to[i];
+            euler(head, to, next, in, out, v);
+        }
+        out[node] = cnt;
+    }
+
+    static boolean isAncested(int a, int b) {
+        return in[a] <= in[b] && out[b] <= out[a];
+    }
+}
+//Optimized
+import java.io.*;
+        import java.util.*;
+
+class Scratch {
+    static int idx = 0;
+    static int cnt = 0;
+    static int N;
+    static int[] in;
+    static int[] out;
+    static int[] parent_old;
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        N = fs.nextInt();
+        int M = fs.nextInt();
+        int K = fs.nextInt();
+        int S = fs.nextInt();
+        if (K < S) {
+            System.out.print(0);
+            return;
+        }
+        int[] head = new int[N + S + 1];
+        int[] to = new int[N + S + 5];
+        int[] next = new int[N + S + 5];
+        parent_old = new int[N+1];
+        Arrays.fill(head, -1);
+        int[] indeg = new int[N + S + 1];
+        in = new int[N + S + 1];
+        out = new int[N + S + 1];
+        int root = 1;
+        for (int i = 1; i < N + 1; i++) {
+            int C = fs.nextInt();
+            for (int j = 0; j < C; j++) {
+                int child = fs.nextInt();
+                parent_old[child] = i;
+            }
+        }
+        for (int i = 1; i < N + S + 1; i++) {
+            int C = fs.nextInt();
+            if (M < C) {
+                System.out.print(0);
+                return;
+            }
+            for (int j = 0; j < C; j++) {
+                int child = fs.nextInt();
+                addEdge(head, to, next, i, child);
+                indeg[child]++;
+                while (indeg[root] != 0) root++;
+            }
+        }
+        euler(head, to, next, in, out, root);
+        for (int i = 1; i < N + 1; i++) {
+            if (parent_old[i] == 0) continue;
+            if (!isAncested(parent_old[i], i)){
+                System.out.print(0);
+                return;
+            }
+        }
+        System.out.print(1);
+    }
+    static final class FastScanner {
+        private final InputStream in;
+        private final byte[] buf = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+        FastScanner(InputStream is){ this.in = is; }
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buf);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buf[ptr++];
+        }
+        int nextInt() throws IOException {
+            int c, s = 1, x = 0;
+            do { c = read(); } while (c <= 32);
+            if (c == '-') { s = -1; c = read(); }
+            while (c > 32) { x = x * 10 + (c - '0'); c = read(); }
+            return x * s;
+        }
+    }
     static void addEdge(int[] head, int[] to, int[] next, int u, int v) {
         to[idx] = v;
         next[idx] = head[u];
