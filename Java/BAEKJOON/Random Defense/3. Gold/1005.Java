@@ -1,3 +1,5 @@
+//https://www.acmicpc.net/problem/1005
+//Try
 import java.io.*;
 import java.util.*;
 
@@ -34,39 +36,56 @@ class Scratch {
     }
     static int[] time;
     static int[] dp;
-    static List<List<Integer>> seq;
+    static int[] seq_to;
+    static int[] seq_next;
+    static int[] seq_head;
+    static int[] indeg;
+    static int index=0;
+    static int W=0;
     public static void main(String[] args) throws IOException{
         FastScanner fs = new FastScanner(System.in);
         StringBuilder sb = new StringBuilder();
         int T = fs.readInt();
         for (int i=0; i<T; i++){
+            index = 0;
             int N = fs.readInt();
             int K = fs.readInt();
-            seq = new ArrayList<>();
+            seq_to = new int[N+K+1];
+            seq_next = new int[N+K+1];
+            seq_head = new int[N+1];
+            Arrays.fill(seq_head, -1);
             time = new int[N+1];
             dp = new int[N+1];
-            int[] indeg = new int[N+1];
-            int root = 0;
-            for (int j = 1; j <=N; j++) time[j] = fs.readInt();
-            for (int j = 0; j <=N; j++) seq.add(new ArrayList<>());
+            indeg = new int[N+1];
+            for (int j = 1; j <=N; j++) {
+                time[j] = fs.readInt();
+                dp[j] = time[j];
+            }
             for (int j = 0; j < K; j++) {
                 int start = fs.readInt();;
                 int end = fs.readInt();;
-                seq.get(start).add(end);
+                addLine(start, end);
                 indeg[end]++;
             }
-            for (int j = 1; j <=N; j++) if (indeg[j] == 0) seq.get(0).add(j);
-            int W = fs.readInt();
-            dfs(0);
+            Queue<Integer> q = new ArrayDeque<>();
+            for (int j = 1; j <=N; j++) if (indeg[j] == 0) q.add(j);
+            W = fs.readInt();
+            while (!q.isEmpty()){
+                int top = q.poll();
+                for (int next = seq_head[top]; next != -1; next = seq_next[next]){
+                    int c = seq_to[next];
+                    dp[c] = Math.max(dp[c], dp[top]+time[c]);
+                    if (--indeg[c] == 0) q.add(c);
+                }
+            }
             if (i > 0) sb.append("\n");
             sb.append(dp[W]);
         }
         System.out.print(sb);
     }
-    static void dfs(int n){
-        for (int c : seq.get(n)) {
-            dp[c] = Math.max(dp[c], dp[n]+time[c]);
-            dfs(c);
-        }
+    static void addLine(int a, int b){
+        seq_to[index] = b;
+        seq_next[index] = seq_head[a];
+        seq_head[a] = index++;
     }
 }

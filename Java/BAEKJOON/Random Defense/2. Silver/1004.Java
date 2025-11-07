@@ -1,6 +1,6 @@
+//https://www.acmicpc.net/problem/1004
+//Try
 import java.io.*;
-import java.util.*;
-
 class Scratch {
     static class FastScanner{
         InputStream in;
@@ -32,41 +32,30 @@ class Scratch {
             return val*s;
         }
     }
-    static int[] time;
-    static int[] dp;
-    static List<List<Integer>> seq;
+
     public static void main(String[] args) throws IOException{
         FastScanner fs = new FastScanner(System.in);
         StringBuilder sb = new StringBuilder();
         int T = fs.readInt();
         for (int i=0; i<T; i++){
-            int N = fs.readInt();
-            int K = fs.readInt();
-            seq = new ArrayList<>();
-            time = new int[N+1];
-            dp = new int[N+1];
-            int[] indeg = new int[N+1];
-            int root = 0;
-            for (int j = 1; j <=N; j++) time[j] = fs.readInt();
-            for (int j = 0; j <=N; j++) seq.add(new ArrayList<>());
-            for (int j = 0; j < K; j++) {
-                int start = fs.readInt();;
-                int end = fs.readInt();;
-                seq.get(start).add(end);
-                indeg[end]++;
+            int ans=0;
+            int x1 = fs.readInt();
+            int y1 = fs.readInt();
+            int x2 = fs.readInt();
+            int y2 = fs.readInt();
+            int n = fs.readInt();
+            for (int j=0; j<n; j++) {
+                int cx = fs.readInt();
+                int cy = fs.readInt();
+                int cr = fs.readInt();
+                if ((x1-cx)*(x1-cx) + (y1-cy)*(y1-cy) < cr * cr &&
+                        (x2-cx)*(x2-cx) + (y2-cy)*(y2-cy) > cr * cr) ans++;
+                else if ((x1-cx)*(x1-cx) + (y1-cy)*(y1-cy) > cr * cr &&
+                        (x2-cx)*(x2-cx) + (y2-cy)*(y2-cy) < cr * cr) ans++;
             }
-            for (int j = 1; j <=N; j++) if (indeg[j] == 0) seq.get(0).add(j);
-            int W = fs.readInt();
-            dfs(0);
-            if (i > 0) sb.append("\n");
-            sb.append(dp[W]);
+            if (i>0) sb.append("\n");
+            sb.append(ans);
         }
         System.out.print(sb);
-    }
-    static void dfs(int n){
-        for (int c : seq.get(n)) {
-            dp[c] = Math.max(dp[c], dp[n]+time[c]);
-            dfs(c);
-        }
     }
 }

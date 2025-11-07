@@ -1,6 +1,6 @@
+//https://www.acmicpc.net/problem/1002
+//Try
 import java.io.*;
-import java.util.*;
-
 class Scratch {
     static class FastScanner{
         InputStream in;
@@ -32,41 +32,35 @@ class Scratch {
             return val*s;
         }
     }
-    static int[] time;
-    static int[] dp;
-    static List<List<Integer>> seq;
+
     public static void main(String[] args) throws IOException{
         FastScanner fs = new FastScanner(System.in);
         StringBuilder sb = new StringBuilder();
         int T = fs.readInt();
         for (int i=0; i<T; i++){
-            int N = fs.readInt();
-            int K = fs.readInt();
-            seq = new ArrayList<>();
-            time = new int[N+1];
-            dp = new int[N+1];
-            int[] indeg = new int[N+1];
-            int root = 0;
-            for (int j = 1; j <=N; j++) time[j] = fs.readInt();
-            for (int j = 0; j <=N; j++) seq.add(new ArrayList<>());
-            for (int j = 0; j < K; j++) {
-                int start = fs.readInt();;
-                int end = fs.readInt();;
-                seq.get(start).add(end);
-                indeg[end]++;
-            }
-            for (int j = 1; j <=N; j++) if (indeg[j] == 0) seq.get(0).add(j);
-            int W = fs.readInt();
-            dfs(0);
+            int x1 = fs.readInt();
+            int y1 = fs.readInt();
+            int r1 = fs.readInt();
+            int x2 = fs.readInt();
+            int y2 = fs.readInt();
+            int r2 = fs.readInt();
+            int x_gap = (x1-x2)*(x1-x2);
+            int y_gap = (y1-y2)*(y1-y2);
+            int r_gap1 = (r1+r2)*(r1+r2);
+            int r_gap2 = (r1-r2)*(r1-r2);
             if (i > 0) sb.append("\n");
-            sb.append(dp[W]);
+            if (x_gap+y_gap > 0) {
+                if (x_gap + y_gap > r_gap1) sb.append(0);
+                else if (x_gap + y_gap == r_gap1) sb.append(1);
+                else if (x_gap + y_gap > r_gap2 && x_gap + y_gap < r_gap1) sb.append(2);
+                else if (x_gap + y_gap == r_gap2) sb.append(1);
+                else sb.append(0);
+            }
+            else {
+                if (r1 == r2) sb.append(-1);
+                else sb.append(0);
+            }
         }
         System.out.print(sb);
-    }
-    static void dfs(int n){
-        for (int c : seq.get(n)) {
-            dp[c] = Math.max(dp[c], dp[n]+time[c]);
-            dfs(c);
-        }
     }
 }
